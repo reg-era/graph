@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/style/base.css">
+    <title>RegEra</title>
+</head>
+
+<body>
+    <section class="parallax-hero">
+        <div class="parallax-bg"></div>
+        <img src="/assets/img/cloud.png" class="cloud-left" alt="Cloud">
+        <img src="/assets/img/cloud.png" class="cloud-right" alt="Cloud">
+
+        <div class="hero-content">
+            <h1 class="hero-title">GOD OF WAR</h1>
+            <p>Journey Through the Nine Realms</p>
+        </div>
+
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <h2 class="section-title">COMBAT STATISTICS</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Weapon Mastery</h3>
+                    <div class="stat-value">87%</div>
+                    <p>Proficiency with the Leviathan Axe</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Defense Rating</h3>
+                    <div class="stat-value">92%</div>
+                    <p>Guardian Shield Efficiency</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Runic Power</h3>
+                    <div class="stat-value">95%</div>
+                    <p>Magical Abilities Strength</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="realm-section">
+        <div class="container">
+            <h2 class="section-title">THE NINE REALMS</h2>
+            <div class="realm-grid">
+                <div class="realm-card">
+                    <h3>Midgard</h3>
+                    <p>The realm of humans, where Kratos and Atreus begin their journey.</p>
+                </div>
+                <div class="realm-card">
+                    <h3>Alfheim</h3>
+                    <p>Home of the Light Elves, bathed in the light of the Bifröst.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const parallaxBg = document.querySelector('.parallax-bg');
+            const cloudLeft = document.querySelector('.cloud-left');
+            const cloudRight = document.querySelector('.cloud-right');
+
+            window.addEventListener('scroll', () => {
+                const scrolled = window.pageYOffset;
+
+                parallaxBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+
+                cloudLeft.style.transform = `translateX(${scrolled * 0.8}px)`;
+                cloudRight.style.transform = `translateX(${-scrolled * 0.8}px)`;
+
+                const opacity = Math.max(0, 1 - (scrolled * 0.003));
+                cloudLeft.style.opacity = opacity;
+                cloudRight.style.opacity = opacity;
+            });
+        });
+    </script>
+</body>
+
+</html>
