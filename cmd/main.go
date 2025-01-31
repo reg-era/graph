@@ -40,3 +40,5 @@ func main() {
 	fmt.Println("Server is running on http://" + address)
 	log.Fatalln(http.ListenAndServe(address, router))
 }
+
+// curl -X POST https://learn.zone01oujda.ma/api/auth/signin -H "Authorization: Basic aWZvdWthaGk6SWx5YXNzbWVkZmtoQDIwMDM="
