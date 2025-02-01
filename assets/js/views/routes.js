@@ -1,7 +1,7 @@
 import { HOME } from "./home.js"
 import { LOGIN } from "./login.js"
 
-const route = () => {
+const route = async () => {
     const routes = [
         { path: "/", view: HOME },
         { path: "/login", view: LOGIN }
@@ -16,7 +16,7 @@ const route = () => {
 
     const view = new page.view
     const app = document.querySelector('.app')
-    app.innerHTML = view.getComponent()
+    app.innerHTML = await view.getComponent()
 }
 
 export { route }

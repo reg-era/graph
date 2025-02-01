@@ -1,13 +1,52 @@
 import { BASE } from "./base.js"
+import { fetchData } from "../lib/expo.js"
+import { userInfos, userSkills, userProjectXP, userAuditRT } from "../lib/interfaceQL.js"
 
 class HOME extends BASE {
     constructor() {
-        super()
-        super.setTitle('home')
-        super.setStyle('assets/style/home.css')
+        super();
+        super.setTitle('home');
+        super.setStyle('assets/style/home.css');
+
+        this.statistics = new Map();
+
+        this.statistics.set("Infos", () => this.getUserInformations(userInfos));
+        this.statistics.set("Skills", () => this.getUserSkills(userSkills));
+        this.statistics.set("ProjectXP", () => this.getUserProjectXP(userProjectXP));
+        this.statistics.set("AuditRT", () => this.getUserAuditRT(userAuditRT));
     }
-    
-    getComponent() {
+
+    async getUserInformations(query) {
+        const res = await fetchData(query);
+        return `
+        <h1 class="hero-title">${res.data.user[0].firstName} ${res.data.user[0].lastName}</h1>
+        <p>
+            Hello, I am a talent from ${res.data.user[0].attrs}.
+            I joined Zone01 on ${new Date(res.data.user[0].createdAt).toLocaleDateString()}, 
+            and have since been contributing to exciting projects within the community. 
+            I am currently working from the ${res.data.user[0].campus} campus, 
+            where I continue to hone my skills and collaborate with other passionate talents. 
+            Welcome to my portfolio!
+        </p>
+        `;
+    }
+
+    async getUserSkills(query) {
+        return `
+        <div class="graph"></div>`
+    }
+
+    async getUserProjectXP(query) {
+        return `
+        <div class="graph"></div>`
+    }
+
+    async getUserAuditRT(query) {
+        return `
+        <div class="graph"></div>`
+    }
+
+    async getComponent(query) {
         return `    
         <section class="parallax-hero">
             <div class="parallax-bg"></div>
@@ -15,50 +54,29 @@ class HOME extends BASE {
             <img src="assets/img/cloud.png" class="cloud-right" alt="Cloud">
         
             <div class="hero-content">
-                <h1 class="hero-title">GOD OF WAR</h1>
-                <p>Journey Through the Nine Realms</p>
+                ${await this.statistics.get("Infos")()}
             </div>
-        
         </section>
         
         <section class="stats-section">
             <div class="container">
-                <h2 class="section-title">COMBAT STATISTICS</h2>
+                <h2 class="section-title">STATISTICS</h2>
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <h3>Weapon Mastery</h3>
-                        <div class="stat-value">87%</div>
-                        <p>Proficiency with the Leviathan Axe</p>
+                        <h3>Projects</h3>
+                        ${await this.statistics.get("ProjectXP")()}
                     </div>
                     <div class="stat-card">
-                        <h3>Defense Rating</h3>
-                        <div class="stat-value">92%</div>
-                        <p>Guardian Shield Efficiency</p>
+                        <h3>Skills</h3>
+                        ${await this.statistics.get("Skills")()}
                     </div>
                     <div class="stat-card">
-                        <h3>Runic Power</h3>
-                        <div class="stat-value">95%</div>
-                        <p>Magical Abilities Strength</p>
+                        <h3>Audits</h3>
+                        ${await this.statistics.get("AuditRT")()}
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <section class="realm-section">
-            <div class="container">
-                <h2 class="section-title">THE NINE REALMS</h2>
-                <div class="realm-grid">
-                    <div class="realm-card">
-                        <h3>Midgard</h3>
-                        <p>The realm of humans, where Kratos and Atreus begin their journey.</p>
-                    </div>
-                    <div class="realm-card">
-                        <h3>Alfheim</h3>
-                        <p>Home of the Light Elves, bathed in the light of the Bifröst.</p>
-                    </div>
-                </div>
-            </div>
-        </section>`
+        </section>`;
     }
 }
 

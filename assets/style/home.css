@@ -77,59 +77,18 @@ section {
 
 .stat-card {
     background: var(--color-bg-light);
+    text-align: center;
     padding: 2rem;
     border-radius: 8px;
     transition: transform 0.3s ease;
-    cursor: pointer;
 }
 
 .stat-card:hover {
-    transform: translateY(-10px);
-}
-
-.stat-value {
-    font-size: 2.5rem;
-    color: var(--color-primary-dark);
-    margin: 1rem 0;
-}
-
-.realm-section {
-    padding: 4rem 2rem;
-    background: linear-gradient(to bottom, #1e293b, #0f172a);
-}
-
-.realm-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.realm-card {
-    background: var(--color-bg-light);
-    padding: 2rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-border-muted);
-    transition: border-color 0.3s ease;
-}
-
-.realm-card:hover {
-    border-color: var(--color-border-active);
+    transform: scale(110%);
 }
 
 .section-title {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 2rem;
-}
-
-@media (max-width: 768px) {
-    .hero-title {
-        font-size: 2.5rem;
-    }
-
-    .stats-grid,
-    .realm-grid {
-        grid-template-columns: 1fr;
-    }
 }

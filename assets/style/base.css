@@ -42,7 +42,7 @@ body {
     font-family: 'GodOfWar', sans-serif;
     /* font-family: 'Arial', sans-serif; */
     background-color: var(--color-bg-darker);
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     line-height: 1.6;
     overflow-x: hidden;
 }
