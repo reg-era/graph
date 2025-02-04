@@ -12,7 +12,10 @@ const userSkills = ``
 
 const userProjectXP = `
 {
-    transaction(where: {type: {_eq: "xp"}, object: {type: {_eq: "project"}}}) {
+    transaction(
+        order_by: {createdAt: asc}
+        where: {type: {_eq: "xp"}, object: {type: {_eq: "project"}}}
+    ) {
         amount
         createdAt
         object {
@@ -21,6 +24,14 @@ const userProjectXP = `
     }
 }`
 
-const userAuditRT = ``
+const userProjectAuditRT = `
+{
+    user {
+        audits(where: {closureType: {_in: [failed, succeeded]}}) {
+            closureType
+        }
+    }
+}
+`
 
-export { userInfos, userSkills, userProjectXP, userAuditRT }
+export { userInfos, userSkills, userProjectXP, userProjectAuditRT }

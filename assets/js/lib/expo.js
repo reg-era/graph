@@ -1,6 +1,6 @@
-const fetchData = async (query) => {
+const fetchData = async (query, field_exposed = '') => {
     try {
-        const jwt = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MDI0IiwiaWF0IjoxNzM4MzU3NDY3LCJpcCI6IjE2MC4xNzcuMjA2Ljg4LCAxNzIuMTguMC4yIiwiZXhwIjoxNzM4NDQzODY3LCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciJdLCJ4LWhhc3VyYS1jYW1wdXNlcyI6Int9IiwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoidXNlciIsIngtaGFzdXJhLXVzZXItaWQiOiI0MDI0IiwieC1oYXN1cmEtdG9rZW4taWQiOiI2ODU3YWE3MC0xMmIwLTQ1ZmEtYjZlYy0xMDllNzcyZjczOTMifX0.pzUsatO8j20dZd-e7J54RscICzBAH5OtIlbuk_B-etU`// getCookie("credential")
+        const jwt = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MDI0IiwiaWF0IjoxNzM4Njc4NjA5LCJpcCI6IjQxLjE0MC4xMjQuMTA3LCAxNzIuMTguMC4yIiwiZXhwIjoxNzM4NzY1MDA5LCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciJdLCJ4LWhhc3VyYS1jYW1wdXNlcyI6Int9IiwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoidXNlciIsIngtaGFzdXJhLXVzZXItaWQiOiI0MDI0IiwieC1oYXN1cmEtdG9rZW4taWQiOiJlZGY1NGM1OS1iMzNkLTRkNmEtYWY2MC00Mzc0NTU4NDgxYWQifX0.LsNtGBVdtc2RhqJyXEkHiTAIzOco9UcTcQ41JFLdg50`// getCookie("credential")
         if (!jwt) throw new Error("credential not found");
 
         const res = await fetch('https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql', {
@@ -14,7 +14,29 @@ const fetchData = async (query) => {
             }),
         });
 
-        return await res.json()
+        let data = await res.json()
+        const nested = field_exposed.split('.')
+
+        if (nested.length > 1) {
+            data = data.data
+            for (let i = 0; i < nested.length; i++) {
+                if (Array.isArray(data)) {
+                    if (data.length === 1 && typeof data[0][nested[i]] !== undefined) {
+                        data = data[0][nested[i]]
+                        if (i === nested.length - 1) return data
+                        continue
+                    }
+                }
+
+                if (typeof data[nested[i]] !== undefined) {
+                    data = data[nested[i]]
+                } else {
+                    return undefined
+                }
+            }
+        } else {
+            return (field_exposed !== '') ? data.data[field_exposed] : data.data
+        }
     } catch (error) {
         console.error('Error on fetching:', error);
     }
