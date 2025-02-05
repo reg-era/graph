@@ -2,29 +2,17 @@
     --color-primary: #ef4444;
     --color-primary-dark: #b91c1c;
 
-    --color-bg-dark: #0f172a;
-    --color-bg-darker: #020617;
-    --color-bg-light: #1e293b;
-    --color-bg-card: rgba(30, 41, 59, 0.8);
+    --color-bg-dark: #1b1b1b;
+    --color-bg-darker: #000000;
+    --color-bg-light: #474747;
+    --color-bg-card: #858585;
 
-    --color-text-primary: #f1f5f9;
-    --color-text-secondary: #94a3b8;
-    --color-text-muted: #64748b;
-
-    --color-border-primary: rgba(255, 255, 255, 0.1);
-    --color-border-active: #ef4444;
-    --color-border-muted: #334155;
-
-    --color-overlay-dark: rgba(0, 0, 0, 0.7);
-    --color-overlay-light: rgba(255, 255, 255, 0.1);
+    --color-text-primary: #FFFFF0;
+    --color-text-secondary: #C0C0C0;
 
     --gradient-main: linear-gradient(to bottom, #0f172a, #1e293b);
     --gradient-card: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
     --gradient-overlay: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
-
-    --border-thin: 1px solid var(--color-border-primary);
-    --border-thick: 2px solid var(--color-border-primary);
-    --border-active: 2px solid var(--color-border-active);
 }
 
 @font-face {
@@ -40,7 +28,6 @@
 
 body {
     font-family: 'GodOfWar', sans-serif;
-    /* font-family: 'Arial', sans-serif; */
     background-color: var(--color-bg-darker);
     color: var(--color-text-primary);
     line-height: 1.6;
