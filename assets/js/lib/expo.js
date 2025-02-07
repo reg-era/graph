@@ -1,6 +1,8 @@
+import {main} from "../main.js"
+
 const fetchData = async (query, field_exposed = '') => {
     try {
-        const jwt = `eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0MDI0IiwiaWF0IjoxNzM4Njc4NjA5LCJpcCI6IjQxLjE0MC4xMjQuMTA3LCAxNzIuMTguMC4yIiwiZXhwIjoxNzM4NzY1MDA5LCJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsidXNlciJdLCJ4LWhhc3VyYS1jYW1wdXNlcyI6Int9IiwieC1oYXN1cmEtZGVmYXVsdC1yb2xlIjoidXNlciIsIngtaGFzdXJhLXVzZXItaWQiOiI0MDI0IiwieC1oYXN1cmEtdG9rZW4taWQiOiJlZGY1NGM1OS1iMzNkLTRkNmEtYWY2MC00Mzc0NTU4NDgxYWQifX0.LsNtGBVdtc2RhqJyXEkHiTAIzOco9UcTcQ41JFLdg50`// getCookie("credential")
+        const jwt = getCookie("credential")
         if (!jwt) throw new Error("credential not found");
 
         const res = await fetch('https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql', {
@@ -53,4 +55,50 @@ const getCookie = (name) => {
     return null;
 }
 
-export { fetchData, getCookie }
+const checkCookie = async () => {
+    try {
+        let value = getCookie('credential')
+        if (!value) throw new Error("credential not found");
+        const res = await fetch("http://localhost:8080/check", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                jwt: value,
+            })
+        })
+        console.log(res.status);
+        
+        return res.status === 200
+    } catch (err) {
+        console.error('Error on getting jwt:', err);
+        return false
+    }
+}
+
+const askForJwt = async (username, password) => {
+    try {
+        const res = await fetch("http://localhost:8080/", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            })
+        })
+
+        const data = await res.json()
+        const expiryDate = new Date()
+        expiryDate.setHours(expiryDate.getHours() + 1)
+
+        document.cookie = `credential=${data.jwt}; expires=${expiryDate.toUTCString()}; path=/;`;
+        main()
+    } catch (err) {
+        console.error('Error on getting jwt:', err);
+    }
+}
+
+export { fetchData, checkCookie, askForJwt }
