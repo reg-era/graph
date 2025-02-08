@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+
 :root {
-    --color-primary: #ef4444;
-    --color-primary-dark: #b91c1c;
+    --font-main: 'Space Grotesk', sans-serif;
+    --font-secondary: 'Outfit', sans-serif;
 
     --color-bg-dark: #1b1b1b;
     --color-bg-darker: #000000;
@@ -9,15 +12,6 @@
 
     --color-text-primary: #FFFFF0;
     --color-text-secondary: #C0C0C0;
-
-    --gradient-main: linear-gradient(to bottom, #0f172a, #1e293b);
-    --gradient-card: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
-    --gradient-overlay: linear-gradient(to top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
-}
-
-@font-face {
-    font-family: 'GodOfWar';
-    src: url('/assets/font/god-of-war-font.TTF') format('truetype');
 }
 
 * {
@@ -27,7 +21,7 @@
 }
 
 body {
-    font-family: 'GodOfWar', sans-serif;
+    font-family: var(--font-main);
     background-color: var(--color-bg-darker);
     color: var(--color-text-primary);
     line-height: 1.6;

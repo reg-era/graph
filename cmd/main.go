@@ -41,4 +41,4 @@ func main() {
 	log.Fatalln(http.ListenAndServe(address, router))
 }
 
-// curl -X POST https://learn.zone01oujda.ma/api/auth/signin -H "Authorization: Basic aWZvdWthaGk6SWx5YXNzbWVkZmtoQDIwMDM="
+// curl -X POST "https://learn.zone01oujda.ma/api/auth/signin" -H "Authorization: Basic aWZvdWthaGk6SWx5YXNzbWVkZmtoQDIwMDM="

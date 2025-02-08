@@ -17,14 +17,14 @@ class HOME extends BASE {
     }
 
     async getUserInformations(query) {
-        const res = await fetchData(query);
+        const res = await fetchData(query,"user");
         return `
-        <h1 class="hero-title">${res.data.user[0].firstName} ${res.data.user[0].lastName}</h1>
+        <h1 class="hero-title">${res.firstName} ${res.lastName}</h1>
         <p>
-            Hello, I am a talent from ${res.data.user[0].attrs}.
-            I joined Zone01 on ${new Date(res.data.user[0].createdAt).toLocaleDateString()}, 
+            Hello, I am a talent from ${res.attrs}.
+            I joined Zone01 on ${new Date(res.createdAt).toLocaleDateString()}, 
             and have since been contributing to exciting projects within the community. 
-            I am currently working from the ${res.data.user[0].campus} campus, 
+            I am currently working from the ${res.campus} campus, 
             where I continue to hone my skills and collaborate with other passionate talents. 
             Welcome to my portfolio!
         </p>
@@ -43,7 +43,7 @@ class HOME extends BASE {
             const margin = {
                 top: height * 0.05,
                 right: width * 0.05,
-                bottom: height * 0.2,
+                bottom: height * 0.6,
                 left: width * 0.1
             };
 
@@ -54,7 +54,7 @@ class HOME extends BASE {
             const maxAmount = Math.max(...res.map(item => item.amount));
 
             const xScale = res.map((_, i) => i * (width / (res.length * 2)));
-            const start = xScale[xScale.length - 1] / (2)
+            const start = xScale[xScale.length - 1] / 2
 
             res.forEach((item, i) => {
                 const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -104,17 +104,15 @@ class HOME extends BASE {
             svg.setAttribute('width', width);
             svg.setAttribute('height', height);
 
-            // Calculate center and radius
             const centerX = width / 2;
             const centerY = height / 2;
             const radius = Math.min(width, height) / 4;
 
-            // Convert to angles (in radians)
             const passAngle = passRatio * 2 * Math.PI;
             const failAngle = failRatio * 2 * Math.PI;
 
-            // Create pass section (starts at 0 radians)
             const passPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            passPath.classList.add('circle-pass')
             const passX = centerX + radius * Math.cos(passAngle);
             const passY = centerY + radius * Math.sin(passAngle);
             const passLargeArc = passAngle > Math.PI ? 1 : 0;
@@ -125,11 +123,11 @@ class HOME extends BASE {
                 A ${radius} ${radius} 0 ${passLargeArc} 1 ${passX} ${passY}
                 Z
             `);
-            passPath.setAttribute('fill', '#4CAF50');
             svg.appendChild(passPath);
 
-            // Create fail section
             const failPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            passPath.classList.add('circle-fail')
+
             const failEndX = centerX + radius * Math.cos(2 * Math.PI);
             const failEndY = centerY + radius * Math.sin(2 * Math.PI);
             const failLargeArc = failAngle > Math.PI ? 1 : 0;
@@ -140,7 +138,6 @@ class HOME extends BASE {
                 A ${radius} ${radius} 0 ${failLargeArc} 1 ${failEndX} ${failEndY}
                 Z
             `);
-            failPath.setAttribute('fill', '#F44336');
             svg.appendChild(failPath);
 
             parent_div.innerHTML = `<h3>Audits</h3>`
@@ -150,23 +147,23 @@ class HOME extends BASE {
         }
     }
 
-    async getComponent(query) {
-        //<section class="parallax-hero">
-        //    <div class="parallax-bg"></div>
-        //    <img src="assets/img/cloud.png" class="cloud-left" alt="Cloud">
-        //    <img src="assets/img/cloud.png" class="cloud-right" alt="Cloud">
-        //
-        //    <div class="hero-content">
-        //        ${await this.statistics.get("Infos")()}
-        //    </div>
-        //</section>
 
-        //<div class="stat-card">
-        //    <h3>Skills</h3>
-        //    ${await this.statistics.get("Skills")()}
-        //</div>
+    //<div class="stat-card">
+    //<h3>Skills</h3>
+    //${await this.statistics.get("Skills")()}
+    //</div>
+
+    async getComponent(query) {
         return `    
-        
+        <section class="parallax-hero">
+            <div class="parallax-bg"></div>
+            <img src="assets/img/cloud.png" class="cloud-left" alt="Cloud">
+            <img src="assets/img/cloud.png" class="cloud-right" alt="Cloud">
+            <div class="hero-content">
+                ${await this.statistics.get("Infos")()}
+            </div>
+        </section>
+
         <section class="stats-section">
             <div class="container">
                 <h2 class="section-title">STATISTICS</h2>
