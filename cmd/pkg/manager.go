@@ -95,20 +95,15 @@ func (jwt *Token) GetToken() error {
 	}{"Authorization", "Basic " + jwt.hash}
 
 	if err := request.sendeRequest(); err != nil {
-		fmt.Println("return erroror")
 		fmt.Fprintf(os.Stdout, "error on sending request: %v\n", err)
 		return err
 	}
 
 	jwt.Jwt = strings.Trim(request.response, `"`)
-	fmt.Println("return nill")
 	return nil
 }
 
 func (jwt *Token) PingToken() error {
-	fmt.Println("1 test with: ", jwt.Jwt)
-	fmt.Println("2 test with: ", jwt.hash)
-
 	request := request{
 		url:    "https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql",
 		method: "POST",
@@ -143,9 +138,9 @@ func (jwt *Token) PingToken() error {
 
 	err := json.Unmarshal([]byte(request.response), &errFormat)
 	if err != nil || len(errFormat.Err) > 0 {
-		fmt.Println("errororro")
+		fmt.Fprintf(os.Stdout, "error on sending request: %v\n", err)
 		return err
 	}
-	fmt.Println("niilrlrlro")
+
 	return nil
 }

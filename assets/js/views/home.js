@@ -17,21 +17,139 @@ class HOME extends BASE {
     }
 
     async getUserInformations(query) {
-        const res = await fetchData(query,"user");
-        return `
-        <h1 class="hero-title">${res.firstName} ${res.lastName}</h1>
+        const res = await fetchData(query, "user");
+        const parent_div = document.querySelector('.hero-content');
+        parent_div.innerHTML = `
+        <h1 class="hero-title">${res[0].firstName} ${res[0].lastName}</h1>
         <p>
-            Hello, I am a talent from ${res.attrs}.
-            I joined Zone01 on ${new Date(res.createdAt).toLocaleDateString()}, 
+            Hello, I am a talent from ${res[0].attrs}.
+            I joined Zone01 on ${new Date(res[0].createdAt).toLocaleDateString()}, 
             and have since been contributing to exciting projects within the community. 
-            I am currently working from the ${res.campus} campus, 
+            I am currently working from the ${res[0].campus} campus, 
             where I continue to hone my skills and collaborate with other passionate talents. 
             Welcome to my portfolio!
-        </p>
-        `;
+        </p>`;
     }
 
     async getUserSkills(query) {
+        try {
+            const res = await fetchData(query, 'transaction');
+            const skills = new Map();
+            for (let i = 0; i < res.length; i++) {
+                skills.set(res[i].type, res[i].amount);
+            }
+            // Convert Map to radar chart data format
+            const radarData = Array.from(skills).map(([name, value]) => ({
+                name,
+                value
+            }));
+
+            const parent_div = document.getElementById('skills');
+            const { width, height } = parent_div.getBoundingClientRect();
+            const margin = {
+                top: height * 0.05,
+                right: width * 0.05,
+                bottom: height * 0.6,
+                left: width * 0.1
+            };
+
+            // Create SVG container
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', width);
+            svg.setAttribute('height', height);
+            // svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+            // Radar chart logic
+            const center = { x: width / 2, y: height / 2 };
+            const maxRadius = Math.min(width, height) * 0.25;
+            const numSkills = radarData.length;
+            const angleStep = (2 * Math.PI) / numSkills;
+
+            // Create web lines (circles)
+            [20, 40, 60, 80, 100].forEach(percentage => {
+                const radius = (maxRadius * percentage) / 100;
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', center.x);
+                circle.setAttribute('cy', center.y);
+                circle.setAttribute('r', radius);
+                circle.setAttribute('fill', 'none');
+                circle.setAttribute('stroke', 'rgba(255,255,255,0.1)');
+                circle.setAttribute('stroke-width', '1');
+                svg.appendChild(circle);
+            });
+
+            // Create spokes (lines from center to edge)
+            radarData.forEach((_, i) => {
+                const angle = i * angleStep - Math.PI / 2;
+                const x2 = center.x + Math.cos(angle) * maxRadius;
+                const y2 = center.y + Math.sin(angle) * maxRadius;
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', center.x);
+                line.setAttribute('y1', center.y);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                line.setAttribute('stroke', 'rgba(255,255,255,0.1)');
+                line.setAttribute('stroke-width', '1');
+                svg.appendChild(line);
+            });
+
+            // Create skill points and shape
+            const skillPoints = radarData.map((skill, i) => {
+                const angle = i * angleStep - Math.PI / 2;
+                const radius = (maxRadius * skill.value) / 100;
+                const x = center.x + Math.cos(angle) * radius;
+                const y = center.y + Math.sin(angle) * radius;
+                return { x, y, ...skill };
+            });
+
+            // Create the skill shape path
+            const skillPath = skillPoints.reduce((path, point, i) => {
+                return path + (i === 0 ? `M ${point.x},${point.y}` : ` L ${point.x},${point.y}`);
+            }, "") + " Z";
+
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', skillPath);
+            path.setAttribute('fill', 'rgba(0,255,136,0.2)');
+            path.setAttribute('stroke', '#00ff88');
+            path.setAttribute('stroke-width', '2');
+            svg.appendChild(path);
+
+            // Add skill points
+            skillPoints.forEach((point, i) => {
+                const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                circle.setAttribute('cx', point.x);
+                circle.setAttribute('cy', point.y);
+                circle.setAttribute('r', '4');
+                circle.setAttribute('fill', '#00ff88');
+                svg.appendChild(circle);
+            });
+
+            // Add labels
+            skillPoints.forEach((point, i) => {
+                const angle = i * angleStep - Math.PI / 2;
+                const labelRadius = maxRadius + 25;
+                const x = center.x + Math.cos(angle) * labelRadius;
+                const y = center.y + Math.sin(angle) * labelRadius;
+                const textAnchor =
+                    angle < -Math.PI / 2 || angle > Math.PI / 2 ? "end" :
+                        angle === -Math.PI / 2 || angle === Math.PI / 2 ? "middle" : "start";
+
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x);
+                text.setAttribute('y', y);
+                text.setAttribute('text-anchor', textAnchor);
+                text.setAttribute('fill', 'currentColor');
+                text.setAttribute('class', 'text-xs font-medium');
+                text.textContent = point.name;
+                svg.appendChild(text);
+            });
+
+            // Append SVG to parent div
+            parent_div.innerHTML = `<h3>Skills</h3>`;
+            parent_div.appendChild(svg);
+        } catch (err) {
+            console.error('On getting skills', err);
+        }
     }
 
     async getUserProjectXP(query) {
@@ -81,7 +199,7 @@ class HOME extends BASE {
             parent_div.innerHTML = `<h3>Projects</h3>`
             parent_div.appendChild(svg)
         } catch (err) {
-            console.error('On geting skills', err);
+            console.error('On geting Projects', err);
         }
     }
 
@@ -143,24 +261,20 @@ class HOME extends BASE {
             parent_div.innerHTML = `<h3>Audits</h3>`
             parent_div.appendChild(svg)
         } catch (err) {
-            console.error('On geting skills', err);
+            console.error('On geting Audits', err);
         }
     }
 
 
-    //<div class="stat-card">
-    //<h3>Skills</h3>
-    //${await this.statistics.get("Skills")()}
-    //</div>
-
     async getComponent(query) {
-        return `    
+        return `
+        <div class="log-out"></div>
         <section class="parallax-hero">
-            <div class="parallax-bg"></div>
             <img src="assets/img/cloud.png" class="cloud-left" alt="Cloud">
             <img src="assets/img/cloud.png" class="cloud-right" alt="Cloud">
             <div class="hero-content">
-                ${await this.statistics.get("Infos")()}
+                <p>loading ...</p>
+                ${setTimeout(async () => await this.statistics.get("Infos")(), 0)}
             </div>
         </section>
 
@@ -168,6 +282,11 @@ class HOME extends BASE {
             <div class="container">
                 <h2 class="section-title">STATISTICS</h2>
                 <div class="stats-grid">
+                    <div id="skills" class="stat-card">
+                        <h3>Skills</h3>
+                        <p>loading ...</p>
+                        ${setTimeout(async () => await this.statistics.get("Skills")(), 0)}
+                    </div>
                     <div id="project" class="stat-card">
                         <h3>Projects</h3>
                         <p>loading ...</p>
@@ -175,6 +294,7 @@ class HOME extends BASE {
                     </div>
                     <div id="audit" class="stat-card">
                         <h3>Audits</h3>
+                        <p>loading ...</p>
                         ${setTimeout(async () => await await this.statistics.get("ProjectAuditRT")(), 0)}
                     </div>
                 </div>

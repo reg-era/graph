@@ -8,13 +8,27 @@ const userInfos = `
     }
 }`
 
-const userSkills = ``
+const userSkills = `
+{
+    transaction(
+        where: {type: {_regex: "skill*"}},
+        order_by: {createdAt: asc}
+    ) {
+        amount
+        type
+    }
+}`
 
 const userProjectXP = `
 {
     transaction(
         order_by: {createdAt: asc}
-        where: {type: {_eq: "xp"}, object: {type: {_eq: "project"}}}
+        where: {
+            type: {_eq: "xp"}, 
+            object: {
+                type: {_eq: "project"}
+            }
+        }
     ) {
         amount
         createdAt

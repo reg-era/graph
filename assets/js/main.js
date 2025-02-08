@@ -4,8 +4,6 @@ import { HOME } from "./views/home.js"
 import { LOGIN } from "./views/login.js"
 
 export const main = async () => {
-    setupStyle()
-
     const routes = [LOGIN, HOME]
 
     const author = await checkCookie()
@@ -15,4 +13,6 @@ export const main = async () => {
     const app = document.querySelector('.app')
     const view = new page
     app.innerHTML = await view.getComponent()
+
+    setupStyle()
 }

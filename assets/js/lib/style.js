@@ -1,12 +1,16 @@
+import { main } from "../main.js"
+
 const setupStyle = () => {
-    const parallaxBg = document.querySelector('.parallax-bg');
+    const logout = document.querySelector('.log-out')
+    logout.addEventListener('click',(e)=>{
+        document.cookie = 'credential=; path=/'
+        main()
+    })
+
     const cloudLeft = document.querySelector('.cloud-left');
     const cloudRight = document.querySelector('.cloud-right');
-
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-
-        parallaxBg.style.transform = `translateY(${scrolled * 0.5}px)`;
 
         cloudLeft.style.transform = `translateX(${scrolled * 0.8}px)`;
         cloudRight.style.transform = `translateX(${-scrolled * 0.8}px)`;

@@ -2,7 +2,6 @@ package jwt
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -19,7 +18,6 @@ func MiddleWar(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
-
 
 func GetThirdToken(w http.ResponseWriter, r *http.Request) {
 	var user User
@@ -47,11 +45,12 @@ func GetThirdToken(w http.ResponseWriter, r *http.Request) {
 
 func CheckValidToken(w http.ResponseWriter, r *http.Request) {
 	var token Token
+
 	if err := json.NewDecoder(r.Body).Decode(&token); err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	fmt.Println(token.Jwt)
+
 	if token.PingToken() != nil {
 		w.WriteHeader(404)
 		return
