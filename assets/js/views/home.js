@@ -73,7 +73,7 @@ class HOME extends BASE {
                 circle.setAttribute('cy', center.y);
                 circle.setAttribute('r', radius);
                 circle.setAttribute('fill', 'none');
-                circle.setAttribute('stroke', 'rgba(255,255,255,0.1)');
+                circle.setAttribute('stroke', 'var(--color-text-primary)');
                 circle.setAttribute('stroke-width', '1');
                 svg.appendChild(circle);
             });
@@ -88,7 +88,7 @@ class HOME extends BASE {
                 line.setAttribute('y1', center.y);
                 line.setAttribute('x2', x2);
                 line.setAttribute('y2', y2);
-                line.setAttribute('stroke', 'rgba(255,255,255,0.1)');
+                line.setAttribute('stroke', 'var(--color-text-primary)');
                 line.setAttribute('stroke-width', '1');
                 svg.appendChild(line);
             });
@@ -109,8 +109,8 @@ class HOME extends BASE {
 
             const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             path.setAttribute('d', skillPath);
-            path.setAttribute('fill', 'rgba(0,255,136,0.2)');
-            path.setAttribute('stroke', '#00ff88');
+            path.setAttribute('fill', 'var(--color-text-secondary)');
+            path.setAttribute('stroke', 'var(--color-text-primary)');
             path.setAttribute('stroke-width', '2');
             svg.appendChild(path);
 
@@ -120,7 +120,7 @@ class HOME extends BASE {
                 circle.setAttribute('cx', point.x);
                 circle.setAttribute('cy', point.y);
                 circle.setAttribute('r', '4');
-                circle.setAttribute('fill', '#00ff88');
+                circle.setAttribute('fill', 'var(--color-text-primary)');
                 svg.appendChild(circle);
             });
 
@@ -158,10 +158,12 @@ class HOME extends BASE {
             const parent_div = document.getElementById('project')
             const { width, height } = parent_div.getBoundingClientRect();
 
+            const getName = (name) => name.split('-').map(word => word.charAt(0).toUpperCase()).join('');
+
             const margin = {
                 top: height * 0.05,
                 right: width * 0.05,
-                bottom: height * 0.6,
+                bottom: height * 0.4,
                 left: width * 0.1
             };
 
@@ -181,7 +183,7 @@ class HOME extends BASE {
                 text.setAttribute('y', height - margin.bottom + 15);
                 text.setAttribute('transform', `rotate(-90, ${xScale[i] + start}, ${height - margin.bottom + 10})`);
                 text.setAttribute('text-anchor', 'end');
-                text.textContent = item.object.name;
+                text.textContent = getName(item.object.name);
                 svg.appendChild(text);
             });
 
@@ -244,7 +246,7 @@ class HOME extends BASE {
             svg.appendChild(passPath);
 
             const failPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-            passPath.classList.add('circle-fail')
+            failPath.classList.add('circle-fail')
 
             const failEndX = centerX + radius * Math.cos(2 * Math.PI);
             const failEndY = centerY + radius * Math.sin(2 * Math.PI);
@@ -265,8 +267,7 @@ class HOME extends BASE {
         }
     }
 
-
-    async getComponent(query) {
+    async getComponent() {
         return `
         <div class="log-out"></div>
         <section class="parallax-hero">
@@ -279,8 +280,7 @@ class HOME extends BASE {
         </section>
 
         <section class="stats-section">
-            <div class="container">
-                <h2 class="section-title">STATISTICS</h2>
+            <div class="stats-container">
                 <div class="stats-grid">
                     <div id="skills" class="stat-card">
                         <h3>Skills</h3>
@@ -295,10 +295,12 @@ class HOME extends BASE {
                     <div id="audit" class="stat-card">
                         <h3>Audits</h3>
                         <p>loading ...</p>
-                        ${setTimeout(async () => await await this.statistics.get("ProjectAuditRT")(), 0)}
+                        ${setTimeout(async () => await this.statistics.get("ProjectAuditRT")(), 0)}
                     </div>
                 </div>
             </div>
+            <button class="nav-button left"><</button>
+            <button class="nav-button right">></button>
         </section>`;
     }
 }

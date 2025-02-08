@@ -8,7 +8,6 @@ export const main = async () => {
 
     const author = await checkCookie()
     const page = author ? routes[1] : routes[0];
-    console.log(author,page.name);
 
     const app = document.querySelector('.app')
     const view = new page

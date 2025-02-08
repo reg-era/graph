@@ -1,9 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+@font-face {
+    font-family: 'god-of-war';
+    src: url('../font/god-of-war-font.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 :root {
-    --font-main: 'Space Grotesk', sans-serif;
-    --font-secondary: 'Outfit', sans-serif;
+    --font-main: 'god-of-war';
 
     --color-bg-dark: #1b1b1b;
     --color-bg-darker: #000000;
@@ -24,17 +27,43 @@ body {
     font-family: var(--font-main);
     background-color: var(--color-bg-darker);
     color: var(--color-text-primary);
-    line-height: 1.6;
-    overflow-x: hidden;
 }
 
 .log-out {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: var(--color-text-primary);
-    position: absolute;
+    cursor: pointer;
+    background-image: url(../img/logout-icon.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;
     right: 3vw;
     top: 3vh;
     z-index: 1000;
+    transition: transform 0.2s ease;
+}
+
+.log-out:hover {
+    transform: scale(1.1);
+}
+
+.manipulat {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.01);
+    top: 150vh;
+    z-index: 1000;
+}
+
+.left {
+    left:3vw
+}
+
+.right {
+    right: 3vw;
 }
