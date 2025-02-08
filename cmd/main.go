@@ -5,40 +5,21 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
+
+	jwt "graphQL/cmd/pkg"
 )
 
 func main() {
-	jwt := os.Getenv("JWT")
 	address := os.Getenv("DOMAIN")
-	if jwt == "" || address == "" {
+	if address == "" {
 		log.Fatal("Set the environment variable")
 	}
 
 	router := http.NewServeMux()
 
-	router.HandleFunc("/assets/", func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasSuffix(r.URL.Path, "/") {
-			fmt.Println("returned")
-			return
-		}
-		fs := http.FileServer(http.Dir("web/assets/"))
-		http.StripPrefix("/assets/", fs).ServeHTTP(w, r)
-	})
-
-	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.SetCookie(w, &http.Cookie{
-			Name:  "credential",
-			Value: jwt,
-			Path:  "/",
-			// SameSite: http.SameSiteStrictMode,
-		})
-
-		http.ServeFile(w, r, "./web/index.html")
-	})
+	router.Handle("/", jwt.MiddleWar(http.HandlerFunc(jwt.GetThirdToken)))
+	router.Handle("/check", jwt.MiddleWar(http.HandlerFunc(jwt.CheckValidToken)))
 
 	fmt.Println("Server is running on http://" + address)
 	log.Fatalln(http.ListenAndServe(address, router))
 }
-
-// curl -X POST "https://learn.zone01oujda.ma/api/auth/signin" -H "Authorization: Basic aWZvdWthaGk6SWx5YXNzbWVkZmtoQDIwMDM="
