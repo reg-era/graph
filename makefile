@@ -1,7 +1,7 @@
 include .env
 
-run:
-	@ADMIN=$(ADMIN) DOMAIN=$(DOMAIN) go run cmd/main.go
+run: clean build
+	@ADMIN=$(ADMIN) DOMAIN=$(DOMAIN) PORT=$(PORT) ./graphServer
 
 build:
 	go build -o graphServer cmd/main.go
