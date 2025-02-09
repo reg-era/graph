@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
-	"os"
 	"strings"
 )
 
@@ -42,7 +42,7 @@ type request struct {
 func (req *request) sendeRequest() error {
 	prepareReq, err := http.NewRequest(req.method, req.url, req.body)
 	if err != nil {
-		fmt.Fprintf(os.Stdout, "error on sending request: %v\n", err)
+		log.Printf("making request: %v\n", err)
 		return err
 	}
 
@@ -53,19 +53,19 @@ func (req *request) sendeRequest() error {
 	client := http.Client{}
 	res, err := client.Do(prepareReq)
 	if err != nil {
-		fmt.Fprintf(os.Stdout, "error on sending request: %v\n", err)
+		log.Printf("preparing request: %v\n", err)
 		return err
 	}
 	defer res.Body.Close()
 	req.responseStatus = res.StatusCode
 
 	if req.responseStatus != 200 {
-		return fmt.Errorf("error on curl: %s", res.Status)
+		return fmt.Errorf("sending request: %s", res.Status)
 	}
 
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		fmt.Fprintf(os.Stdout, "error on sending request: %v\n", err)
+		log.Printf("reading request: %v\n", err)
 		return err
 	}
 	req.response = string(body)
@@ -95,7 +95,6 @@ func (jwt *Token) GetToken() error {
 	}{"Authorization", "Basic " + jwt.hash}
 
 	if err := request.sendeRequest(); err != nil {
-		fmt.Fprintf(os.Stdout, "error on sending request: %v\n", err)
 		return err
 	}
 
@@ -126,7 +125,6 @@ func (jwt *Token) PingToken() error {
 	request.body = bytes.NewBuffer([]byte("{ record { authorId } }"))
 
 	if err := request.sendeRequest(); err != nil {
-		fmt.Fprintf(os.Stdout, "error on sending request: %v\n", err)
 		return err
 	}
 
@@ -138,7 +136,6 @@ func (jwt *Token) PingToken() error {
 
 	err := json.Unmarshal([]byte(request.response), &errFormat)
 	if err != nil || len(errFormat.Err) > 0 {
-		fmt.Fprintf(os.Stdout, "error on sending request: %v\n", err)
 		return err
 	}
 
