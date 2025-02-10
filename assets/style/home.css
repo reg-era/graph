@@ -1,3 +1,33 @@
+@font-face {
+    font-family: 'god-of-war';
+    src: url('../font/god-of-war-font.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --color-bg-dark: #1b1b1b;
+    --color-bg-darker: #000000;
+    --color-bg-light: #474747;
+    --color-bg-card: #858585;
+
+    --color-text-primary: #FFFFF0;
+    --color-text-secondary: #C0C0C0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'god-of-war';
+    ;
+}
+
+body {
+    background-color: var(--color-bg-darker);
+    color: var(--color-text-primary);
+}
+
 section {
     height: 100vh;
 }
@@ -127,6 +157,47 @@ section {
 .active {
     opacity: 1;
     transform: translateX(0);
+}
+
+/***************************************************************/
+
+.log-out {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-image: url(../img/logout-icon.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;
+    right: 3vw;
+    top: 3vh;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+}
+
+.log-out:hover {
+    transform: scale(1.1);
+}
+
+.manipulat {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.01);
+    top: 150vh;
+    z-index: 1000;
+}
+
+.left {
+    left: 3vw
+}
+
+.right {
+    right: 3vw;
 }
 
 /* --------------- svg element --------------------- */

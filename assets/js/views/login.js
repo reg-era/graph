@@ -1,11 +1,23 @@
 import { askForJwt } from "../lib/expo.js";
-import { BASE } from "./base.js";
 
-class LOGIN extends BASE {
+class LOGIN {
     constructor() {
-        super()
-        super.setTitle('login')
-        super.setStyle('assets/style/login.css')
+        this.style = 'assets/style/login.css'
+    }
+
+    setStyle() {
+        document.title = 'login'
+
+        document.head.querySelectorAll('link').forEach((link) => {
+            if (link.getAttribute('rel') === 'stylesheet' && link.getAttribute('href') !== this.style) {
+                link.remove()
+            }
+        })
+
+        const link = document.createElement('link')
+        link.setAttribute('rel', 'stylesheet')
+        link.setAttribute('href', this.style)
+        document.head.appendChild(link)
     }
 
     handleEvents() {
@@ -17,19 +29,7 @@ class LOGIN extends BASE {
             const password = document.querySelector('input[name="password"]')
 
             if (username.value.length > 0 && password.value.length > 0) {
-                // if (username.value === 'regera' && password.value === '123') {
-                    console.log('valid');
-
-                    await askForJwt(username.value,password.value)
-                    
-                    // let date = new Date();
-                    // date.setTime(date.getTime() + (1 * 24 * 60 * 60 * 1000));
-                    // let expires = "expires=" + date.toUTCString();
-                
-                    // document.cookie = "auth=test;" + expires + ";path=/";
-
-                    // location.pushstat
-                // }
+                await askForJwt(username.value, password.value)
             }
             submit.disabled = false
         })
@@ -38,7 +38,6 @@ class LOGIN extends BASE {
     getComponent() {
         setTimeout(this.handleEvents, 0)
         return `
-        <h1>Login page</h1>
         <div class="login-container">
             <div class="login-box">
                 <div class="textbox">

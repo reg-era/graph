@@ -1,30 +1,46 @@
+@font-face {
+    font-family: 'god-of-war';
+    src: url('../font/god-of-war-font.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --color-bg-dark: #1b1b1b;
+    --color-bg-darker: #000000;
+    --color-bg-light: #474747;
+    --color-bg-card: #858585;
+
+    --color-text-primary: #FFFFF0;
+    --color-text-secondary: #C0C0C0;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'god-of-war';
+    ;
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
-
-h1 {
-    text-align: center;
+    background-color: var(--color-bg-darker);
+    color: var(--color-text-primary);
+    overflow-y: hidden;
 }
 
 .login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 20vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 80%;
     height: 100%;
+    overflow: hidden;
 }
 
 .login-box {
-    background: var(--color-bg-dark);
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -39,7 +55,7 @@ h1 {
 .textbox input {
     width: 100%;
     padding: 10px;
-    font-size: 16px;
+    font-size: 24px;
     border-radius: 4px;
     outline: none;
     transition: all 0.3s;
@@ -50,6 +66,7 @@ h1 {
 }
 
 input[type="submit"] {
+    margin-top: 5vh;
     background: var(--color-bg-darker);
     color: var(--color-text-primary);
     border: none;
@@ -57,7 +74,7 @@ input[type="submit"] {
     width: 100%;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 24px;
     transition: background 0.3s;
 }
 
