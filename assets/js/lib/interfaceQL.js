@@ -1,34 +1,23 @@
-const userInfos = `
+const GraphqlQuery = `
 {
-    user {
+    infos: user {
         firstName
         lastName
         attrs(path: "city")
         createdAt
     }
-}`
-
-const userSkills = `
-{
-    transaction(
-        where: {type: {_regex: "skill*"}},
+    
+    skills: transaction(
+        where: {type: {_regex: "skill*"}}
         order_by: {createdAt: asc}
     ) {
         amount
         type
     }
-}`
-
-const userProjectXP = `
-{
-    transaction(
+    
+    projects: transaction(
         order_by: {createdAt: asc}
-        where: {
-            type: {_eq: "xp"}, 
-            object: {
-                type: {_eq: "project"}
-            }
-        }
+        where: {type: {_eq: "xp"}, object: {type: {_eq: "project"}}}
     ) {
         amount
         createdAt
@@ -36,16 +25,16 @@ const userProjectXP = `
             name
         }
     }
-}`
-
-const userProjectAuditRT = `
-{
-    user {
-        audits(where: {closureType: {_in: [failed, succeeded]}}) {
-            closureType
+    
+    audits:user {
+        fail:audits_aggregate(where: {closureType: {_eq: failed}}){
+            aggregate{count}
+        }
+        pass:audits_aggregate(where: {closureType: {_eq: succeeded}}){
+            aggregate{count}
         }
     }
 }
 `
 
-export { userInfos, userSkills, userProjectXP, userProjectAuditRT }
+export { GraphqlQuery }

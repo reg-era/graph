@@ -20,7 +20,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'god-of-war';
-    ;
 }
 
 body {
@@ -28,12 +27,9 @@ body {
     color: var(--color-text-primary);
 }
 
-section {
+.parallax {
     height: 100vh;
-}
-
-.parallax-hero {
-    height: 100vh;
+    width: 100vw;
     position: relative;
     overflow: hidden;
     display: flex;
@@ -61,14 +57,14 @@ section {
     right: 40%;
 }
 
-.hero-content {
+.user-infos {
     position: relative;
     text-align: center;
     z-index: 2;
     padding: 2rem;
 }
 
-.hero-title {
+.user-title {
     font-size: 4rem;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
@@ -76,22 +72,12 @@ section {
 
 /* ------------- statistic section ------------- */
 
-.stats-section {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    padding: 20px 0;
-}
-
-.stats-grid {
-    display: flex;
-    width: 100%;
-    gap: 20px;
-}
-
 .stats-container {
+    height: 100vh;
+    width: 100vw;
     height: 100%;
     display: flex;
+    flex-wrap: wrap;
     transition: transform 0.5s ease-in-out;
 }
 
@@ -166,7 +152,7 @@ section {
     height: 50px;
     border-radius: 50%;
     cursor: pointer;
-    background-image: url(../img/logout-icon.png);
+    background-image: url(../img/logout.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

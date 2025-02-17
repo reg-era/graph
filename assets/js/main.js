@@ -11,7 +11,8 @@ export const main = async () => {
 
     const app = document.querySelector('.app')
     const view = new page
-    view.setStyle()
-    app.innerHTML = await view.getComponent()
-    setupStyle()
+
+    await view.init()
+    app.innerHTML = await view.Rendring()
+    view.AfterRendring()
 }
