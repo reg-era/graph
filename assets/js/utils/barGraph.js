@@ -2,8 +2,6 @@ const makeBarGraph = (data) => {
     const parent_div = document.getElementById('project')
     const { width, height } = parent_div.getBoundingClientRect();
 
-    const getName = (name) => name.split('-').map(word => word.charAt(0).toUpperCase()).join('');
-
     const margin = {
         top: height * 0.05,
         right: width * 0.05,
@@ -17,12 +15,12 @@ const makeBarGraph = (data) => {
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
 
-    const maxAmount = Math.max(...data.map(item => item.amount));
 
+    const maxAmount = Math.max(...data.map(item => item.amount));
     const xScale = data.map((_, i) => i * (width / data.length) * 0.7);
     console.log(xScale);
 
-
+    // const getName = (name) => name.split('-').map(word => word.charAt(0).toUpperCase()).join('');
     // data.forEach((item, i) => {
     // const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     // text.classList.add('project-name');
@@ -35,8 +33,11 @@ const makeBarGraph = (data) => {
     // });
 
 
-    const widthDiff = (width / data.length)
+    const widthDiff = (width / data.length);
     console.log(widthDiff);
+    console.log(margin);
+    console.log(height);
+
 
     data.forEach((item, i) => {
         const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
@@ -45,15 +46,19 @@ const makeBarGraph = (data) => {
         title.textContent = `${item.amount} PX`;
         rect.appendChild(title);
 
-        rect.setAttribute('x', xScale[i] + margin.left);
+        rect.setAttribute('x', xScale[i] + margin.left + (widthDiff * 0.16 * i));
+        rect.setAttribute('y', height - margin.bottom - ((item.amount / maxAmount) * (height)));
 
-        rect.setAttribute('y', height - margin.bottom - (item.amount / maxAmount * (height - margin.top - margin.bottom)));
-        rect.setAttribute('height', (item.amount / maxAmount) * 120);
+        console.log((item.amount / maxAmount));
 
-        rect.setAttribute('width', widthDiff * 0.7)
-        rect.setAttribute('fill', 'white')
+        rect.setAttribute('height', 200);
+        rect.setAttribute('width', widthDiff * 0.6);
+
+        rect.setAttribute('fill', 'white');
+
         svg.appendChild(rect);
     });
+
 
     const difrenceX = (margin.bottom - margin.top) / 10
     for (let i = 1; i <= 10; i++) {
@@ -73,7 +78,12 @@ const makeBarGraph = (data) => {
     }
 
     parent_div.innerHTML = `<h3>Projects</h3>`
-    parent_div.appendChild(svg)
+    const demo = document.createElement('div')
+    demo.classList.add('demo')
+    demo.innerHTML = `
+    <p>XP earned by projects</p>
+    `
+    parent_div.append(svg, demo)
 }
 
 export { makeBarGraph }

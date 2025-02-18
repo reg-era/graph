@@ -31,26 +31,26 @@ body {
     color: var(--color-text-primary);
 }
 
-.log-out {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    cursor: pointer;
-    background-image: url(../img/logout.png);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: fixed;
-    right: 3vw;
-    top: 3vh;
-    z-index: 1000;
-    transition: transform 0.2s ease;
-}
-
-.log-out:hover {
-    transform: scale(1.1);
-}
-
+/* .log-out { */
+    /* width: 50px; */
+    /* height: 50px; */
+    /* border-radius: 50%; */
+    /* cursor: pointer; */
+    /* background-image: url(../img/logout.png); */
+    /* background-size: cover; */
+    /* background-position: center; */
+    /* background-repeat: no-repeat; */
+    /* position: fixed; */
+    /* right: 3vw; */
+    /* top: 3vh; */
+    /* z-index: 1000; */
+    /* transition: transform 0.2s ease; */
+/* } */
+/*  */
+/* .log-out:hover { */
+    /* transform: scale(1.1); */
+/* } */
+/*  */
 
 .parallax {
     height: 100vh;
@@ -123,16 +123,25 @@ body {
     border: 1px solid var(--color-text-secondary);
 }
 
-@media (max-width: 900px) {
-    .stats-section {
-        flex-direction: column;
-        justify-content: center;
-    }
+.demo {
+    width: 100%;
+    height: 20%;
+    text-align: end;
+    color: var(--color-text-primary);
+}
 
-    .stat-card {
-        width: 100%;
-        max-width: none;
-    }
+.reference {
+    margin-right: 10px;
+}
+
+.reference.fail {
+    color: var(--color-text-secondary);
+    background-color: var(--color-text-secondary);
+}
+
+.reference.pass {
+    color: var(--color-text-primary);
+    background-color: var(--color-text-primary);
 }
 
 

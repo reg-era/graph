@@ -95,7 +95,12 @@ const makeRadarGraph = (data) => {
 
     // Append SVG to parent div
     parent_div.innerHTML = `<h3>Skills</h3>`;
-    parent_div.appendChild(svg);
+    const demo = document.createElement('div')
+    demo.classList.add('demo')
+    demo.innerHTML = `
+    <p>Skills gained</p>
+    `
+    parent_div.append(svg, demo)
 }
 
-export {makeRadarGraph}
+export { makeRadarGraph }
