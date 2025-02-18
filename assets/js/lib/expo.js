@@ -92,7 +92,7 @@ const askForJwt = async (username, password) => {
 
         const data = await res.json()
         const expiryDate = new Date()
-        expiryDate.setHours(expiryDate.getHours() + 1)
+        expiryDate.setHours(expiryDate.getHours() + 5)
 
         document.cookie = `credential=${data.jwt}; expires=${expiryDate.toUTCString()}; path=/;`;
         main()
