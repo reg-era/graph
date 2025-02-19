@@ -3,7 +3,7 @@ import { GraphqlQuery } from "../lib/interfaceQL.js"
 import { setupStyle } from "../lib/style.js";
 import { makeBarGraph } from "../utils/barGraph.js";
 import { makeCercleGraph } from "../utils/cercleGraph.js";
-import { makeRadarGraph } from "../utils/graph.js";
+import { makeRadarGraph } from "../utils/radarGraph.js";
 
 class HOME {
     constructor() {

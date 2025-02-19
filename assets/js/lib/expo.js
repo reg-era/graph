@@ -1,4 +1,4 @@
-import {main} from "../main.js"
+import { main } from "../main.js"
 
 const fetchData = async (query, field_exposed = '') => {
     try {
@@ -68,8 +68,7 @@ const checkCookie = async () => {
                 jwt: value,
             })
         })
-        console.log(res.status);
-        
+
         return res.status === 200
     } catch (err) {
         console.error('Error on getting jwt:', err);

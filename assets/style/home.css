@@ -31,26 +31,26 @@ body {
     color: var(--color-text-primary);
 }
 
-/* .log-out { */
-    /* width: 50px; */
-    /* height: 50px; */
-    /* border-radius: 50%; */
-    /* cursor: pointer; */
-    /* background-image: url(../img/logout.png); */
-    /* background-size: cover; */
-    /* background-position: center; */
-    /* background-repeat: no-repeat; */
-    /* position: fixed; */
-    /* right: 3vw; */
-    /* top: 3vh; */
-    /* z-index: 1000; */
-    /* transition: transform 0.2s ease; */
-/* } */
-/*  */
-/* .log-out:hover { */
-    /* transform: scale(1.1); */
-/* } */
-/*  */
+.log-out {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-image: url(../img/logout.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: fixed;
+    right: 3vw;
+    top: 3vh;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+}
+
+.log-out:hover {
+    transform: scale(1.1);
+}
+
 
 .parallax {
     height: 100vh;
@@ -111,8 +111,8 @@ body {
 
 .stat-card {
     flex: 1;
-    max-width: 800px;
-    min-width: 500px;
+    max-width: 600px;
+    min-width: 300px;
     height: 500px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -121,6 +121,7 @@ body {
     align-items: center;
     border-radius: 10px;
     border: 1px solid var(--color-text-secondary);
+    overflow: auto;
 }
 
 .demo {
@@ -155,12 +156,4 @@ body {
 .project-name {
     font-size: 10px;
     fill: var(--color-text-primary);
-}
-
-.circle-pass {
-    fill: var(--color-text-primary);
-}
-
-.circle-fail {
-    fill: var(--color-text-secondary);
 }

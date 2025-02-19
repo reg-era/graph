@@ -7,21 +7,21 @@ const makeCercleGraph = (data) => {
     svg.setAttribute('height', height);
     svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
 
-
     const centerX = width / 2;
     const centerY = height / 2;
-    const radius = Math.min(width, height) / 4;
+    const radius = Math.min(width, height) / 3;
 
     const passAngle = data.passRatio * 2 * Math.PI;
     const failAngle = data.failRatio * 2 * Math.PI;
 
     const passPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    passPath.classList.add('circle-pass')
-
     const Passtitle = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+
     Passtitle.textContent = `Passed audits`;
+    passPath.setAttribute('cursor', 'crosshair')
+    passPath.setAttribute('fill', 'var(--color-text-primary)')
     passPath.appendChild(Passtitle);
-    
+
     const passX = centerX + radius * Math.cos(passAngle);
     const passY = centerY + radius * Math.sin(passAngle);
     const passLargeArc = passAngle > Math.PI ? 1 : 0;
@@ -35,8 +35,10 @@ const makeCercleGraph = (data) => {
     svg.appendChild(passPath);
 
     const failPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    failPath.setAttribute('cursor', 'crosshair')
+    failPath.setAttribute('fill', 'var(--color-text-secondary)')
     failPath.classList.add('circle-fail')
-    
+
     const Failtitle = document.createElementNS('http://www.w3.org/2000/svg', 'title');
     Failtitle.textContent = `Failed audits`;
     failPath.appendChild(Failtitle);
@@ -60,6 +62,7 @@ const makeCercleGraph = (data) => {
     <p><span class="reference pass">O</span>Passed projects</p>
     <p><span class="reference fail">O</span>Failed projects</p>
     `
-    parent_div.append(svg, demo)}
+    parent_div.append(svg, demo)
+}
 
 export { makeCercleGraph }
