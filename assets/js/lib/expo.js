@@ -88,15 +88,17 @@ const askForJwt = async (username, password) => {
                 password: password,
             })
         })
+        if (!res.ok) {
+            return res.status
+        }
 
         const data = await res.json()
         const expiryDate = new Date()
-        expiryDate.setHours(expiryDate.getHours() + 5)
-
+        expiryDate.setHours(expiryDate.getHours() + 1)
         document.cookie = `credential=${data.jwt}; expires=${expiryDate.toUTCString()}; path=/;`;
-        main()
+        return res.status
     } catch (err) {
-        console.error('Error on getting jwt:', err);
+        console.error(err);
     }
 }
 
