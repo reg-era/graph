@@ -24,8 +24,6 @@ const makeRadarGraph = (data) => {
 
     data.forEach((_, i) => {
         const angle = i * angleStep - Math.PI / 2;
-        console.log(angle);
-
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
         line.setAttribute('x1', center.x);
         line.setAttribute('y1', center.y);
@@ -83,7 +81,7 @@ const makeRadarGraph = (data) => {
         text.setAttribute('x', x);
         text.setAttribute('y', y);
         text.setAttribute('text-anchor', textAnchor);
-        text.setAttribute('fill', 'currentColor');
+        text.setAttribute('fill', 'var(--color-text-primary)');
         text.textContent = point.name.replace('skill_', '');
         svg.appendChild(text);
     });
