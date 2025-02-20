@@ -2,7 +2,10 @@ FROM golang:1.24 as builder
 
 WORKDIR /app
 
+
 RUN go mod init graphQL
+RUN go get github.com/mattn/go-sqlite3
+
 
 COPY . .
 RUN go build -o server ./cmd/main.go
