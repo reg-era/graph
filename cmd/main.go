@@ -1,12 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 
-	jwt "graphQL/cmd/pkg"
+	pkg "graphQL/cmd/pkg"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
@@ -20,11 +21,17 @@ func main() {
 		port = "8080"
 	}
 
+	if err := pkg.NewDB(); err != nil {
+		log.Fatalf("error on creation data base: %v\n", err)
+	}
+
 	router := http.NewServeMux()
 
-	router.Handle("/", jwt.MiddleWar(http.HandlerFunc(jwt.GetThirdToken)))
-	router.Handle("/check", jwt.MiddleWar(http.HandlerFunc(jwt.CheckValidToken)))
+	router.Handle("/", pkg.MiddleWar(http.HandlerFunc(pkg.GetThirdToken)))
+	router.Handle("/check", pkg.MiddleWar(http.HandlerFunc(pkg.CheckValidToken)))
 
-	fmt.Printf("Server is running on http://%s:%s\n", address, port)
+	log.Printf("Server is running on http://%s:%s\n", address, port)
 	log.Fatalln(http.ListenAndServe(address+":"+port, router))
 }
+
+//	https://graph-tm10.onrender.com

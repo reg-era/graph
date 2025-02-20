@@ -1,4 +1,3 @@
-import { setupStyle } from "./lib/style.js"
 import { checkCookie } from "./lib/expo.js"
 import { HOME } from "./views/home.js"
 import { LOGIN } from "./views/login.js"

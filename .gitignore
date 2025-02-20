@@ -1,2 +1,3 @@
 ./graphServer
 .env
+*.db

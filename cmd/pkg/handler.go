@@ -1,9 +1,9 @@
-package jwt
+package pkg
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
-	"os"
 )
 
 func MiddleWar(next http.Handler) http.Handler {
@@ -16,49 +16,56 @@ func MiddleWar(next http.Handler) http.Handler {
 			w.WriteHeader(http.StatusOK)
 			return
 		}
+		if r.Method != http.MethodPost {
+			http.Error(w, "Methode not allowed -_-", http.StatusMethodNotAllowed)
+			return
+		}
 		next.ServeHTTP(w, r)
 	})
 }
 
 func GetThirdToken(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		http.Error(w, "Page not found :|", http.StatusNotFound)
+		return
+	}
+
 	var user User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
-		w.WriteHeader(500)
+		http.Error(w, "Something wrong happen *_*", http.StatusInternalServerError)
 		return
 	}
 
 	var token *Token = nil
-	if user.Username == "admin" && user.Password == "123" {
-		token = NewToken(os.Getenv("ADMIN"))
-	} else {
-		token = NewToken(user.HashData())
-	}
+	token = NewToken(user.HashData())
 	if token.GetToken() != nil || token.PingToken() != nil {
-		w.WriteHeader(404)
+		http.Error(w, "user not found :|", http.StatusNotFound)
+		return
+	}
+
+	data, err := json.Marshal(token)
+	if err != nil {
+		http.Error(w, "Something wrong happen *_*", http.StatusInternalServerError)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-
-	data, err := json.Marshal(token)
+	_, err = w.Write(data)
 	if err != nil {
-		w.WriteHeader(500)
-		return
+		log.Printf("getting token error: %v\n", err)
 	}
-
-	w.Write(data)
 }
 
 func CheckValidToken(w http.ResponseWriter, r *http.Request) {
 	var token Token
 
 	if err := json.NewDecoder(r.Body).Decode(&token); err != nil {
-		w.WriteHeader(500)
+		http.Error(w, "Something wrong happen *_*", http.StatusInternalServerError)
 		return
 	}
 
 	if token.PingToken() != nil {
-		w.WriteHeader(404)
+		http.Error(w, "user not found :|", http.StatusNotFound)
 		return
 	}
 

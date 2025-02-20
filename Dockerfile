@@ -2,11 +2,9 @@ FROM golang:1.24 as builder
 
 WORKDIR /app
 
-COPY go.mod ./
-RUN go mod download
+RUN go mod init graphQL
 
 COPY . .
-RUN ls
 RUN go build -o server ./cmd/main.go
 
 FROM alpine:latest
@@ -16,5 +14,6 @@ ENV PORT=8080
 
 COPY --from=builder /app/server .
 
-EXPOSE ${PORT}
+EXPOSE 8080
+
 CMD ["./server"]

@@ -1,5 +1,3 @@
-import { main } from "../main.js"
-
 const fetchData = async (query, field_exposed = '') => {
     try {
         const jwt = getCookie("credential")
@@ -59,8 +57,9 @@ const checkCookie = async () => {
     try {
         let value = getCookie('credential')
         if (!value) throw new Error("credential not found");
-        const res = await fetch("http://localhost:8080/check", {
+        const res = await fetch("https://graph-tm10.onrender.com/check", {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -78,7 +77,7 @@ const checkCookie = async () => {
 
 const askForJwt = async (username, password) => {
     try {
-        const res = await fetch("http://localhost:8080/", {
+        const res = await fetch("https://graph-tm10.onrender.com/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

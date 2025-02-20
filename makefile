@@ -3,17 +3,9 @@ include .env
 IMAGE_NAME = server
 CONTAINER_NAME = server-container
 
-run: clean build
+run:
 	@echo "Running the application..."
-	@./graphServer
-
-clean:
-	@echo "Cleaning up..."
-	@rm -f graphServer
-
-build:
-	@echo "Building the Go binary..."
-	@go build -o graphServer cmd/main.go
+	@PORT=$(PORT) DOMAIN=$(DOMAIN) go run cmd/main.go
 
 docker-run: clean build
 	@echo "Building the Docker image..."
