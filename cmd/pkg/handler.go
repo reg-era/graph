@@ -2,8 +2,10 @@ package pkg
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"time"
 )
 
 func MiddleWar(next http.Handler) http.Handler {
@@ -42,6 +44,19 @@ func GetThirdToken(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "user not found :|", http.StatusNotFound)
 		return
 	}
+
+	cookie := &http.Cookie{
+		Name:        "test",
+		Value:       "hadi dyali",
+		Expires:     time.Now().Add(5 * time.Hour),
+		Path:        "/",
+		Partitioned: true,
+	}
+
+	http.SetCookie(w, cookie)
+
+	fmt.Println("test")
+	fmt.Println("Set-Cookie header: ", w.Header().Get("Set-Cookie"))
 
 	data, err := json.Marshal(token)
 	if err != nil {

@@ -7,7 +7,7 @@ run:
 	@echo "Running the application..."
 	@PORT=$(PORT) DOMAIN=$(DOMAIN) go run cmd/main.go
 
-docker-run: clean build
+docker-run:
 	@echo "Building the Docker image..."
 	docker build -t $(IMAGE_NAME) .
 
@@ -22,3 +22,5 @@ docker-clean:
 
 	@echo "Removing the Docker image..."
 	docker rmi $(IMAGE_NAME) || true
+
+.PHONY: run docker-run docker-clean

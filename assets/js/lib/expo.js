@@ -1,3 +1,5 @@
+const _endPoint = "http://localhost:8080"
+
 const fetchData = async (query, field_exposed = '') => {
     try {
         const jwt = getCookie("credential")
@@ -43,13 +45,13 @@ const fetchData = async (query, field_exposed = '') => {
 }
 
 const getCookie = (name) => {
-    let cookieArr = document.cookie.split(";");
-    for (let i = 0; i < cookieArr.length; i++) {
-        let cookie = cookieArr[i].trim();
-        if (cookie.indexOf(name + "=") === 0) {
-            return cookie.substring(name.length + 1);
-        }
-    }
+    // let cookieArr = document.cookie.split(";");
+    // for (let i = 0; i < cookieArr.length; i++) {
+        // let cookie = cookieArr[i].trim();
+        // if (cookie.indexOf(name + "=") === 0) {
+            // return cookie.substring(name.length + 1);
+        // }
+    // }
     return null;
 }
 
@@ -57,7 +59,7 @@ const checkCookie = async () => {
     try {
         let value = getCookie('credential')
         if (!value) throw new Error("credential not found");
-        const res = await fetch("https://graph-tm10.onrender.com/check", {
+        const res = await fetch(`${_endPoint}/check`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -77,7 +79,7 @@ const checkCookie = async () => {
 
 const askForJwt = async (username, password) => {
     try {
-        const res = await fetch("https://graph-tm10.onrender.com/", {
+        const res = await fetch(`${_endPoint}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,10 +93,10 @@ const askForJwt = async (username, password) => {
             return res.status
         }
 
-        const data = await res.json()
-        const expiryDate = new Date()
-        expiryDate.setHours(expiryDate.getHours() + 1)
-        document.cookie = `credential=${data.jwt}; expires=${expiryDate.toUTCString()}; path=/;`;
+        // const data = await res.json()
+        // const expiryDate = new Date()
+        // expiryDate.setHours(expiryDate.getHours() + 1)
+        // document.cookie = `credential=${data.jwt}; expires=${expiryDate.toUTCString()}; path=/;`;
         return res.status
     } catch (err) {
         console.error(err);
