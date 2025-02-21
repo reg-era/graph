@@ -23,4 +23,10 @@ docker-clean:
 	@echo "Removing the Docker image..."
 	docker rmi $(IMAGE_NAME) || true
 
-.PHONY: run docker-run docker-clean
+deploy-build:
+	@echo "Building server..."
+	go build -o server cmd/main.go
+
+deploy-run:
+	@echo "Running server..."
+	./server

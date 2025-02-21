@@ -1,3 +1,3 @@
 ./graphServer
 .env
-*.db
+cmd/data/data.db
