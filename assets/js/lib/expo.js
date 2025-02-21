@@ -1,14 +1,16 @@
+import { main } from "../main.js";
+
 const _endPoint = "http://localhost:8080"
 
 const fetchData = async (query, field_exposed = '') => {
     try {
-        const jwt = getCookie("credential")
-        if (!jwt) throw new Error("credential not found");
-
+        if (!await checkAuthorization()) {
+            main()
+        }
         const res = await fetch('https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql', {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${jwt}`,
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
@@ -44,35 +46,19 @@ const fetchData = async (query, field_exposed = '') => {
     }
 }
 
-const getCookie = (name) => {
-    let cookieArr = document.cookie.split(";");
-    for (let i = 0; i < cookieArr.length; i++) {
-        let cookie = cookieArr[i].trim();
-        if (cookie.indexOf(name + "=") === 0) {
-            return cookie.substring(name.length + 1);
-        }
-    }
-    return null;
-}
+const checkAuthorization = async () => {
+    if (localStorage.getItem('jwt') === null) return false
 
-const checkCookie = async () => {
     try {
-        let value = getCookie('credential')
-        if (!value) throw new Error("credential not found");
         const res = await fetch(`${_endPoint}/check`, {
             method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
             body: JSON.stringify({
-                jwt: value,
+                jwt: localStorage.getItem('jwt'),
             })
         })
 
         return res.status === 200
     } catch (err) {
-        console.error('Error on getting jwt:', err);
         return false
     }
 }
@@ -93,16 +79,12 @@ const askForJwt = async (username, password) => {
         if (!res.ok) {
             return res.status
         }
-
-        console.log(getCookie("test"))
-        // const data = await res.json()
-        // const expiryDate = new Date()
-        // expiryDate.setHours(expiryDate.getHours() + 1)
-        // document.cookie = `credential=${data.jwt}; expires=${expiryDate.toUTCString()}; path=/;`;
+        const data = await res.json()
+        localStorage.setItem("jwt", data.jwt)
         return res.status
     } catch (err) {
         console.error(err);
     }
 }
 
-export { fetchData, checkCookie, askForJwt }
+export { fetchData, checkAuthorization, askForJwt }

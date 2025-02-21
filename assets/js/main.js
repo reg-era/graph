@@ -1,11 +1,11 @@
-import { checkCookie } from "./lib/expo.js"
+import { checkAuthorization } from "./lib/expo.js"
 import { HOME } from "./views/home.js"
 import { LOGIN } from "./views/login.js"
 
 export const main = async () => {
     const routes = [LOGIN, HOME]
 
-    const author = await checkCookie()
+    const author = await checkAuthorization()
     const page = author ? routes[1] : routes[0];
 
     const app = document.querySelector('.app')

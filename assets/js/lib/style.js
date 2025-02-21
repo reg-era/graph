@@ -3,7 +3,7 @@ import { main } from "../main.js"
 const setupStyle = () => {
     const logout = document.querySelector('.log-out')
     logout.addEventListener('click', (e) => {
-        document.cookie = 'credential=; path=/'
+        localStorage.removeItem('jwt')
         main()
     })
 
