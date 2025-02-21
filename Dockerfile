@@ -1,11 +1,9 @@
 FROM golang:1.24.0
 WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod download
+RUN go mod init graphQL
 
 COPY . .
-RUN go get github.com/mattn/go-sqlite3
 
 RUN go build -o server ./cmd/main.go
 
