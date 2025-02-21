@@ -2,7 +2,6 @@ package pkg
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -46,29 +45,17 @@ func GetThirdToken(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cookie := &http.Cookie{
-		Name:        "test",
-		Value:       "hadi dyali",
-		Expires:     time.Now().Add(5 * time.Hour),
-		Path:        "/",
-		Partitioned: true,
+		Name:    "test",
+		Value:   token.Jwt,
+		Expires: time.Now().Add(5 * time.Hour),
+		Path:    "/",
+
+		// SameSite:    http.SameSiteNoneMode,
+		// Partitioned: true,
 	}
 
 	http.SetCookie(w, cookie)
-
-	fmt.Println("test")
-	fmt.Println("Set-Cookie header: ", w.Header().Get("Set-Cookie"))
-
-	data, err := json.Marshal(token)
-	if err != nil {
-		http.Error(w, "Something wrong happen *_*", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	_, err = w.Write(data)
-	if err != nil {
-		log.Printf("getting token error: %v\n", err)
-	}
+	log.Println("Set-Cookie header: ", w.Header().Get("Set-Cookie"))
 }
 
 func CheckValidToken(w http.ResponseWriter, r *http.Request) {

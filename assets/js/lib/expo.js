@@ -45,13 +45,13 @@ const fetchData = async (query, field_exposed = '') => {
 }
 
 const getCookie = (name) => {
-    // let cookieArr = document.cookie.split(";");
-    // for (let i = 0; i < cookieArr.length; i++) {
-        // let cookie = cookieArr[i].trim();
-        // if (cookie.indexOf(name + "=") === 0) {
-            // return cookie.substring(name.length + 1);
-        // }
-    // }
+    let cookieArr = document.cookie.split(";");
+    for (let i = 0; i < cookieArr.length; i++) {
+        let cookie = cookieArr[i].trim();
+        if (cookie.indexOf(name + "=") === 0) {
+            return cookie.substring(name.length + 1);
+        }
+    }
     return null;
 }
 
@@ -84,6 +84,7 @@ const askForJwt = async (username, password) => {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials: 'include',
             body: JSON.stringify({
                 username: username,
                 password: password,
@@ -93,6 +94,7 @@ const askForJwt = async (username, password) => {
             return res.status
         }
 
+        console.log(getCookie("test"))
         // const data = await res.json()
         // const expiryDate = new Date()
         // expiryDate.setHours(expiryDate.getHours() + 1)
