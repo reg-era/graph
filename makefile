@@ -1,4 +1,4 @@
-include .env
+-include .env
 
 IMAGE_NAME = server
 CONTAINER_NAME = server-container
