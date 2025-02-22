@@ -26,7 +26,8 @@ const fetchData = async (query) => {
 
         return data.data
     } catch (error) {
-        console.error('Error on fetching:', error);
+        localStorage.removeItem('jwt')
+        main()
     }
 }
 

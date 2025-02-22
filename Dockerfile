@@ -8,9 +8,10 @@ RUN go mod tidy
 
 RUN go build -o server ./cmd/main.go
 
-FROM busybox:latest
+FROM alpine:latest
 WORKDIR /root/
 
+RUN apk add --no-cache libc6-compat
 COPY --from=builder /app/server ./
 
 EXPOSE 8080
