@@ -1,8 +1,6 @@
 @font-face {
     font-family: 'god-of-war';
     src: url('../font/god-of-war-font.TTF') format('truetype');
-    font-weight: normal;
-    font-style: normal;
 }
 
 :root {
@@ -95,6 +93,11 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.magic-word{
+    color: var(--color-text-secondary);
+    font-size: 20px;
+}
+
 /* ------------- statistic section ------------- */
 
 .stats-section {
@@ -105,14 +108,14 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 50px;
     padding: 20px;
 }
 
 .stat-card {
     flex: 1;
-    max-width: 600px;
-    min-width: 300px;
+    max-width: 800px;
+    min-width: 600px;
     height: 500px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -145,7 +148,6 @@ body {
     background-color: var(--color-text-primary);
 }
 
-
 /* --------------- svg element --------------------- */
 
 .svg-container {
@@ -156,4 +158,10 @@ body {
 .project-name {
     font-size: 10px;
     fill: var(--color-text-primary);
+}
+
+@media (max-width: 600px) {
+    .stat-card {
+        min-width: 300px;
+    }
 }

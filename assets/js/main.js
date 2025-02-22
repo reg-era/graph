@@ -11,7 +11,11 @@ export const main = async () => {
     const app = document.querySelector('.app')
     const view = new page
 
-    await view.init()
+    const err = await view.init()
+    if (!err) {
+        app.innerHTML = '<h1>something bad happen try later</h1>'
+        return
+    }
     app.innerHTML = await view.Rendring()
     view.AfterRendring()
 }

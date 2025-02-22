@@ -1,8 +1,8 @@
 import { main } from "../main.js";
 
-const _endPoint = "https://server-graph.onrender.com"
+const _endPoint = " http://localhost:8080"//"https://server-graph.onrender.com"
 
-const fetchData = async (query, field_exposed = '') => {
+const fetchData = async (query) => {
     try {
         if (!await checkAuthorization()) {
             main()
@@ -19,28 +19,12 @@ const fetchData = async (query, field_exposed = '') => {
         });
 
         let data = await res.json()
-        const nested = field_exposed.split('.')
 
-        if (nested.length > 1) {
-            data = data.data
-            for (let i = 0; i < nested.length; i++) {
-                if (Array.isArray(data)) {
-                    if (data.length === 1 && typeof data[0][nested[i]] !== undefined) {
-                        data = data[0][nested[i]]
-                        if (i === nested.length - 1) return data
-                        continue
-                    }
-                }
-
-                if (typeof data[nested[i]] !== undefined) {
-                    data = data[nested[i]]
-                } else {
-                    return undefined
-                }
-            }
-        } else {
-            return (field_exposed !== '') ? data.data[field_exposed] : data.data
+        if (data.errors) {
+            throw new Error(data.errors[0].message);
         }
+
+        return data.data
     } catch (error) {
         console.error('Error on fetching:', error);
     }

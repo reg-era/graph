@@ -2,12 +2,17 @@ import { askForJwt } from "../lib/expo.js";
 import { main } from "../main.js";
 
 class LOGIN {
-    init() { }
+    init() {
+        document.title = 'Login'
+        return true
+    }
 
     AfterRendring() {
+        let free = true
         const submitionEvent = async (e) => {
             e.preventDefault()
-            submit.disabled = true
+            if (!free) return
+            free = false
             const username = document.querySelector('input[name="username"]')
             const password = document.querySelector('input[name="password"]')
 
@@ -16,22 +21,22 @@ class LOGIN {
                 const error = document.querySelector('.error-msj')
 
                 if (res == 200) {
-                    console.log('moomomommomo');
                     main()
                 } else if (res == 404) {
                     error.innerHTML = `Oops! We couldn't find the talent.`
+                    free = true
                 } else {
                     error.innerHTML = `Oops! Something went wrong. Please try again later.`
+                    free = true
                 }
             }
-            submit.disabled = false
         }
 
         const submit = document.querySelector('input[type="submit"]')
         submit.addEventListener('click', submitionEvent)
-        document.addEventListener('keydown', (e) => {
+        document.addEventListener('keydown', async (e) => {
             if (e.key === 'Enter') {
-                submitionEvent(e)
+                await submitionEvent(e)
             }
         });
 
