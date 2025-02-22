@@ -1,6 +1,6 @@
 import { main } from "../main.js";
 
-const _endPoint = " http://localhost:8080"//"https://server-graph.onrender.com"
+const _endPoint = "https://server-graph.onrender.com"
 
 const fetchData = async (query) => {
     try {
