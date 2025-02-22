@@ -34,7 +34,7 @@ const makeBarGraph = (data) => {
         const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
         const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-        title.textContent = `${item.amount} PX\n${item.object.name}`;
+        title.textContent = `${item.amount} XP\n${item.object.name}`;
         rect.appendChild(title);
         rect.setAttribute('cursor', 'crosshair')
 

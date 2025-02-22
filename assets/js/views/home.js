@@ -31,7 +31,7 @@ class HOME {
         <h1 class="user-title">${data[0].firstName} ${data[0].lastName}</h1>
         <p>
             From the ancient word of <span class="magic-word">${data[0].attrs.toLowerCase()}</span>, a talent whose strength and cunning are unmatched<br>
-            I have amassed a fortune of <span class="magic-word">${data[0].transactions_aggregate.aggregate.sum.amount}</span> in XPS gold through battles fought and alliances forged<br>
+            I have amassed a fortune of <span class="magic-word">${data[0].transactions_aggregate.aggregate.sum.amount}</span> in XP through battles fought and alliances forged<br>
             My skill in the ways of discipline is reflected in my high audit ratio of <span class="magic-word">${data[0].auditRatio.toFixed(2)}</span><br>
             My legacy began on a fateful day <span class="magic-word">${new Date(data[0].createdAt).toLocaleDateString('en-GB', {day: '2-digit',month: 'long',year: 'numeric'})}</span> when my journey towards glory began
         </p>`;

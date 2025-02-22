@@ -53,4 +53,5 @@ input[type="submit"]:hover {
 .error-msj {
     font-size: 18px;
     margin-top: 20px;
+    color: rgb(255, 219, 219);
 }
