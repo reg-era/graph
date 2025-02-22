@@ -12,11 +12,11 @@ class LOGIN {
         const submitionEvent = async (e) => {
             e.preventDefault()
             if (!free) return
-            free = false
             const username = document.querySelector('input[name="username"]')
             const password = document.querySelector('input[name="password"]')
-
+            
             if (username.value.length > 0 && password.value.length > 0) {
+                free = false
                 const res = await askForJwt(username.value, password.value)
                 const error = document.querySelector('.error-msj')
 
